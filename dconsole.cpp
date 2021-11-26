@@ -1,6 +1,16 @@
 #include <iostream>
+#include <cmath>
 #include <stdlib.h>
 using namespace std;
+double factorial(double n)
+{
+	double result = n;
+	for(int i = n-1; i>0; i--)
+	{
+		result = result * i;
+	}
+	return(result);
+}
 double getNum(int index)
 {
 	double n1;
@@ -74,7 +84,7 @@ int main()
                         num1 = getNum(1);
                         num2 = getNum(2);
                         double result = num1 * num2;
-                        cout << "The prodcut of " << num1 << " * " << num2 << " is " << result << endl;
+                        cout << "The product of " << num1 << " * " << num2 << " is " << result << endl;
 		}
 		else if(input == "div")
 		{
@@ -90,6 +100,13 @@ int main()
 				cout << "You cannot divide by zero." << endl;
 			}
 		}
+		else if(input == "sqrt")
+		{
+			num1 = getNum(1);
+			double result = sqrt(num1);
+			cout << "The square root of " << num1 << " is " << result << endl;
+		}
+
 		enterContinue();
 		defaultDisplay();
 
