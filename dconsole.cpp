@@ -2,7 +2,9 @@
 #include <cmath>
 #include <stdlib.h>
 #include <vector>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 bool isIn(double thing, vector<double> area)
 {
 	bool found = false;
@@ -160,12 +162,14 @@ int main()
 {
 	string input;
 	string secondaryInput;
-	string PAUSE;
+	double a;
+	double b;
+	double c;
 	double num1;
 	double num2;
 	int int1;
 	int int2;
-	string commands[] = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial"};
+	string commands[] = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors"};
 	string defaultMsg = "% ";
 	defaultDisplay();
 	while(true)
@@ -259,8 +263,44 @@ int main()
 		{
 			int1 = getInt(1);
 			int2 = getInt(2);
+			auto start = high_resolution_clock::now();
 			int gcdResult = gcd(int1, int2);
 			cout << "The gcd of " << int1 << " and " << int2 << " is " << gcdResult << endl;
+			auto stop = high_resolution_clock::now();
+			auto duration = duration_cast<microseconds>(stop - start);
+			cout << "Completed in " << duration.count() << " microseconds" << endl;
+		}
+		else if(input == "function" || input == "fx")
+		{
+			int functionType;
+			cout << "What type of function is this?" << endl;
+			cout << "1. linear\n2. quadratic\n3. cubic\n4. log\n5. ln\n6. sin\n7. cos\n8. tan\n" << endl;
+			cout << "Choice?: ";
+			cin >> functionType;
+			switch(functionType)
+			{
+				case 1:
+					double m;
+					double b;
+					double lowerBound;
+					double upperBound;
+					m = getNumWithMessage("Value for m (slope)?: ");
+					b = getNumWithMessage("Value for b (y-intercept)?: ");
+					lowerBound = getNumWithMessage("Lower bound?: ");
+					upperBound = getNumWithMessage("Upper bound?: ");
+					cout << "y = " << m << "x + " << b << "\n" << endl;
+					for(int i = lowerBound; i<=upperBound; i++)
+					{
+						cout << "@ x = " << i << " | " << ((m*i) + b) << endl;
+					}
+					break;
+				case 2:
+					a = getNumWithMessage("Value for a: ");
+					b = getNumWithMessage("Value for b: ");
+					break;
+				default:
+					cout << "Invalid selection. Exiting." << endl;
+			}
 		}
 		numbers.clear();
 		enterContinue();
