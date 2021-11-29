@@ -1,10 +1,24 @@
 #include <iostream>
+#include <math.h>
 #include <cmath>
 #include <stdlib.h>
 #include <vector>
 #include <chrono>
+#include <fstream>
 using namespace std;
 using namespace std::chrono;
+void wslcopy(string text)
+{
+	fstream myFile;
+	myFile.open("tempCopy.txt", ios::out);
+	if(myFile.is_open())
+	{
+		myFile << text;
+		myFile.close();
+	}
+	system("cat tempCopy.txt | clip.exe");
+	system("rm tempCopy.txt");
+}
 bool isIn(double thing, vector<double> area)
 {
 	bool found = false;
@@ -45,6 +59,13 @@ int getInt(int index)
 	int n1;
 	cout << "Number " << index << ": ";
 	cin >> n1;
+	return(n1);
+}
+int getIntWithMessage(string msg)
+{
+	int n1;
+        cout << msg;
+        cin >> n1;
 	return(n1);
 }
 string getInput(string msg)
@@ -162,19 +183,30 @@ int main()
 {
 	string input;
 	string secondaryInput;
+	vector<string> options;
+        vector<double> numbers;
+	vector<string> building;
+	vector<string> freeVector;
+	vector<string> freeVector2;
+	string freeString;
 	double a;
 	double b;
 	double c;
+	double d;
+	double m;
 	double num1;
 	double num2;
 	int int1;
 	int int2;
+	int int3;
+	int int4;
+	double lowerBound;
+	double upperBound;
 	string commands[] = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors"};
 	string defaultMsg = "% ";
 	defaultDisplay();
 	while(true)
 	{
-		vector<double> numbers;
 		input = getInput(defaultMsg);
 		if(input == "exit" || input == "quit" || input == "stop")
 		{
@@ -270,6 +302,10 @@ int main()
 			auto duration = duration_cast<microseconds>(stop - start);
 			cout << "Completed in " << duration.count() << " microseconds" << endl;
 		}
+		else if(input == "test")
+		{
+			wslcopy("success");
+		}
 		else if(input == "function" || input == "fx")
 		{
 			int functionType;
@@ -280,10 +316,6 @@ int main()
 			switch(functionType)
 			{
 				case 1:
-					double m;
-					double b;
-					double lowerBound;
-					double upperBound;
 					m = getNumWithMessage("Value for m (slope)?: ");
 					b = getNumWithMessage("Value for b (y-intercept)?: ");
 					lowerBound = getNumWithMessage("Lower bound?: ");
@@ -297,12 +329,139 @@ int main()
 				case 2:
 					a = getNumWithMessage("Value for a: ");
 					b = getNumWithMessage("Value for b: ");
+					c = getNumWithMessage("Value for c: ");
+					lowerBound = getNumWithMessage("Lower bound?: ");
+					upperBound = getNumWithMessage("Upper bound?: ");
+					cout << "y = " << a << "(x^2) + " << b << "x + " << c << endl;
+					for(int i = lowerBound; i<=upperBound; i++)
+					{
+
+                                                cout << "@ x = " << i << " | " << ((a * pow(i, 2)) + (b * i) + c) << endl;
+					}
 					break;
-				default:
-					cout << "Invalid selection. Exiting." << endl;
+				case 3:
+                                        a = getNumWithMessage("Value for a: ");
+                                        b = getNumWithMessage("Value for b: ");
+                                        c = getNumWithMessage("Value for c: ");
+					d = getNumWithMessage("Value for d: ");
+                                        lowerBound = getNumWithMessage("Lower bound?: ");
+                                        upperBound = getNumWithMessage("Upper bound?: ");
+                                        for(int i = lowerBound; i<=upperBound; i++)
+                                        {
+
+                                                cout << "@ x = " << i << " | " << ((a * pow(i, 3)) + (b * pow(i, 2)) + (c * i) + d) << endl;
+                                        }	
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:	
+					//sin function is in radians for C++ built in
+					cout << "Units?:" << endl;
+					cout << "1. Degrees\n2. Radians\n" << endl;
+					cin >> int1;
+					cout << "Parameter?: ";
+					cin >> num1;
+					if(int1 == 1)
+					{
+						num1 = num1 * M_PI;
+						num1 = num1/180;
+						freeString = "deg";
+					}
+					else
+					{
+						freeString = "rad";
+					}
+					num2 = sin(num1);
+					cout << "The result of sin(" << num1 << " " << freeString << ") is " << num2 << endl; 
+					break;
 			}
 		}
+		else if(input == "html")
+		{
+			cout << "What HTML related thing do you want to do?" << endl;
+			options.push_back("Create a table");
+			options.push_back("Add a color span tag");
+			for(int i = 0; i<options.size(); i++)
+			{
+				cout << i+1 << ". " << options.at(i) << endl;
+			}
+			int3 = getIntWithMessage("Choice?: ");
+			switch(int3)
+			{
+				case 1:
+					cin.ignore();
+					cout << "Title of table?: ";
+					getline(cin, freeString);
+					building.push_back(freeString);
+					cin.ignore();
+					cout << "Number of rows?: ";
+					cin >> int1;
+					cin.ignore();
+					cout << "Number of columns?: ";
+					cin >> int2;
+					for(int c = 0; c<int2; c++) //give names to the column headers
+					{
+						cin.ignore();
+						cout << "Column header for column # " << c+1 << "?: ";
+						getline(cin, freeString);
+						freeVector.push_back(freeString);
+					}
+					for(int i = 0; i<int1; i++) //populate rows
+					{
+						cout << "Row " << i+1 << ":" << endl;
+						for(int j = 0; j<int2; j++) //populate columns
+						{
+							cin.ignore();
+							cout << "Details for R: " << i+1 << "@ C: " << j+1 << " (\"" << freeVector.at(j) << "\")?: ";
+							getline(cin, freeString);
+							freeVector2.push_back(freeString);
+						}
+					}
+					freeString = "<table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th colspan=\"" + to_string(int2) + "\">" + building.at(0) + "</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>";
+					int4 = 0;
+					for(int r = 0; r<int1; r++)
+					{
+						freeString = freeString + "\n\t\t<tr>";
+						for(int c = 0; c<int2; c++)
+						{
+							freeString = freeString + "\n\t\t\t<td>" + freeVector2.at(int4) + "</td>";
+							int4++;
+						}
+					}
+					freeString = freeString + "\n\t\t</tr>\n\t</tbody>\n</table>";
+					cout << "\nCreated table: \n\n" << freeString << "\n\nCopy result? [Y/N]: ";
+					cin >> secondaryInput;
+				       	if(secondaryInput == "y" || secondaryInput == "yes" || secondaryInput == "Y" || secondaryInput == "Yes" || secondaryInput == "YES")
+					{
+						cout << "What system are you on?: " << endl;
+						cout << "1. Windows (WSL)\n2. Linux\n" << endl;
+						cin >> int1;
+						switch(int1)
+						{
+							case 1:
+								wslcopy(freeString);
+								break;
+							case 2:
+								//implement later; 
+								break;
+							default:
+								cout << "Copy operation failed. Did not recognize system input." << endl;
+						}
+
+					}	
+					wslcopy(freeString);
+					break;
+				default:
+					cout << "Unrecognized selection." << endl;
+			}	
+		}	
 		numbers.clear();
+		options.clear();
+		freeVector.clear();
+		freeVector2.clear();
+		building.clear();
 		enterContinue();
 		defaultDisplay();
 
