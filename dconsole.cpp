@@ -171,6 +171,18 @@ int gcd(int a, int b)
 	}
 	return(gcd);
 }
+int ezMenu(vector<string> options)
+{
+	int selection;
+	for(int i=0; i<options.size(); i++)
+	{
+		cout << i+1 << ". " << options.at(i) << endl;
+	}
+	cout << "\nChoice?: ";
+	cin >> selection;
+	cout << "\n";
+	return(selection);
+}
 void defaultDisplay()
 {
 	system("clear");
@@ -190,24 +202,33 @@ int main()
 	vector<string> freeVector2;
 	string freeString;
 	double a;
+	const double PI = 3.14159;
 	double b;
 	double c;
 	double d;
 	double m;
 	double num1;
 	double num2;
+	double num3;
+	double num4;
 	int int1;
 	int int2;
 	int int3;
 	int int4;
 	double lowerBound;
 	double upperBound;
-	string commands[] = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors"};
+	vector<string> commands = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors", "html", "function"};
 	string defaultMsg = "% ";
 	defaultDisplay();
 	while(true)
 	{
 		input = getInput(defaultMsg);
+		if(input == "ezmenu" || input == "m")
+		{
+			int1 = ezMenu(commands);
+			input = commands.at(int1-1);
+			cout << "\n";
+		}
 		if(input == "exit" || input == "quit" || input == "stop")
 		{
 			return 0;
@@ -359,13 +380,13 @@ int main()
 				case 6:	
 					//sin function is in radians for C++ built in
 					cout << "Units?:" << endl;
-					cout << "1. Degrees\n2. Radians\n" << endl;
+					cout << "1. Degrees\n2. Radians\n\nChoice?: " << endl;
 					cin >> int1;
 					cout << "Parameter?: ";
 					cin >> num1;
 					if(int1 == 1)
 					{
-						num1 = num1 * M_PI;
+						num1 = num1 * PI;
 						num1 = num1/180;
 						freeString = "deg";
 					}
