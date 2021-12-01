@@ -441,6 +441,10 @@ int main()
 						}
 					}
 					freeString = "<table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th colspan=\"" + to_string(int2) + "\">" + building.at(0) + "</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>";
+					for(int h = 0; h < freeVector.size(); h++)
+					{
+						freeString = freeString + "\n\t\t<th>" + freeVector.at(h) + "</th>";
+					}
 					int4 = 0;
 					for(int r = 0; r<int1; r++)
 					{
