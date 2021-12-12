@@ -201,6 +201,7 @@ int main()
 	vector<string> freeVector;
 	vector<string> freeVector2;
 	string freeString;
+	string freeString2;
 	double a;
 	const double PI = 3.14159;
 	double b;
@@ -404,6 +405,7 @@ int main()
 			cout << "What HTML related thing do you want to do?" << endl;
 			options.push_back("Create a table");
 			options.push_back("Add a color span tag");
+			options.push_back("Highlight span tag");
 			for(int i = 0; i<options.size(); i++)
 			{
 				cout << i+1 << ". " << options.at(i) << endl;
@@ -477,6 +479,94 @@ int main()
 
 					}	
 					wslcopy(freeString);
+					break;
+				case 2:
+					freeVector.clear();
+					freeVector2.clear();
+					freeVector.push_back("green");
+					freeVector.push_back("red");
+					freeVector.push_back("orange");
+					freeVector.push_back("yellow");
+					freeVector2.push_back("#8eb398");
+					freeVector2.push_back("#cd3333");
+					freeVector2.push_back("#ff7f24");
+					freeVector2.push_back("#e4c514");
+					for(int i=0; i<freeVector.size(); i++)
+					{
+						cout << i+1 << ". " << freeVector.at(i) << endl;
+					}
+					cout << "\n" << endl;
+					cout << "Which color?: ";
+					cin >> int1;
+					cin.ignore();
+					cout << "Colorize what text?: ";
+					getline(cin, freeString);
+					freeString2 = "<span style = \"color: " + freeVector2.at(int1-1) + "\">" + freeString + "</span>";
+					cout << "Result: " << freeString2 << "\n" << endl;
+					cout << "Copy result?: ";
+					cin >> freeString;
+					if(freeString == "y" || freeString == "Y" || freeString == "yes" || freeString == "Yes" || freeString == "YES")
+					{
+						cout << "What system are you on?: " << endl;
+                                                cout << "1. Windows (WSL)\n2. Linux\n" << endl;
+                                                cin >> int1;
+                                                switch(int1)
+                                                {
+                                                        case 1:
+                                                                wslcopy(freeString2);
+                                                                break;
+                                                        case 2:
+                                                                //implement later;
+                                                                break;
+                                                        default:
+                                                                cout << "Copy operation failed. Did not recognize system input." << endl;
+                                                }
+
+                                        }
+					break;
+				case 3:
+					freeVector.clear();
+                                        freeVector2.clear();
+                                        freeVector.push_back("green");
+                                        freeVector.push_back("red");
+                                        freeVector.push_back("orange");
+                                        freeVector.push_back("yellow");
+                                        freeVector2.push_back("#8eb398");
+                                        freeVector2.push_back("#cd3333");
+                                        freeVector2.push_back("#ff7f24");
+                                        freeVector2.push_back("#e4c514");
+                                        for(int i=0; i<freeVector.size(); i++)
+                                        {
+                                                cout << i+1 << ". " << freeVector.at(i) << endl;
+                                        }
+                                        cout << "\n" << endl;
+                                        cout << "Which color?: ";
+                                        cin >> int1;
+                                        cin.ignore();
+                                        cout << "Colorize what text?: ";
+                                        getline(cin, freeString);
+                                        freeString2 = "<span style = \"background-color: " + freeVector2.at(int1-1) + "\">" + freeString + "</span>";
+                                        cout << "Result: " << freeString2 << "\n" << endl;
+                                        cout << "Copy result?: ";
+                                        cin >> freeString;
+                                        if(freeString == "y" || freeString == "Y" || freeString == "yes" || freeString == "Yes" || freeString == "YES")
+                                        {
+                                                cout << "What system are you on?: " << endl;
+                                                cout << "1. Windows (WSL)\n2. Linux\n" << endl;
+                                                cin >> int1;
+                                                switch(int1)
+                                                {
+                                                        case 1:
+                                                                wslcopy(freeString2);
+                                                                break;
+                                                        case 2:
+                                                                //implement later;
+                                                                break;
+                                                        default:
+                                                                cout << "Copy operation failed. Did not recognize system input." << endl;
+                                                }
+
+                                        }	
 					break;
 				default:
 					cout << "Unrecognized selection." << endl;
