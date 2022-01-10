@@ -7,17 +7,53 @@
 #include <fstream>
 using namespace std;
 using namespace std::chrono;
+void wincopy(string text)
+{
+        fstream myFile;
+        myFile.open("tempCopy.txt", ios::out);
+        if(myFile.is_open())
+        {
+                myFile << text;
+                myFile.close();
+        }
+        system("clip < tempCopy.txt");
+        system("del tempCopy.txt");
+}
 void wslcopy(string text)
 {
-	fstream myFile;
-	myFile.open("tempCopy.txt", ios::out);
-	if(myFile.is_open())
+        fstream myFile;
+        myFile.open("tempCopy.txt", ios::out);
+        if(myFile.is_open())
+        {
+                myFile << text;
+                myFile.close();
+        }
+        system("cat tempCopy.txt | clip.exe");
+        system("rm tempCopy.txt");
+}
+void copy(string text, int systemType)
+{
+	if(systemType == 1)
 	{
-		myFile << text;
-		myFile.close();
+		wincopy(text);
 	}
-	system("cat tempCopy.txt | clip.exe");
-	system("rm tempCopy.txt");
+	else if(systemType == 2)
+	{
+		wslcopy(text);
+	}
+	else
+	{
+		fstream myFile;
+        	myFile.open("tempCopy.txt", ios::out);
+        	if(myFile.is_open())
+        	{
+                	myFile << text;
+                	myFile.close();
+        	}
+        	system("xclip -sel c < tempCopy.txt"); //copying on linux will require xclip --- sudo install xclip
+        	system("rm tempCopy.txt");
+	}
+
 }
 bool isIn(double thing, vector<double> area)
 {
@@ -183,11 +219,18 @@ int ezMenu(vector<string> options)
 	cout << "\n";
 	return(selection);
 }
-void defaultDisplay()
+void defaultDisplay(int systemType)
 {
-	system("clear");
+	if(systemType == 1)
+	{
+		system("cls");
+	}
+	else
+	{
+		system("clear");
+	}
 	system("python3 graphics.py");
-	cout << "dconsole C++ @1.02 " << system("date") << endl;
+	cout << "dconsole C++ @1.03 " << endl;
 	cout << "\n";
 } //end defaultDisplay method
 
@@ -218,9 +261,12 @@ int main()
 	int int4;
 	double lowerBound;
 	double upperBound;
+	int systemType; //1 = windows 2 = WSL 3 = native linux
 	vector<string> commands = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors", "html", "function"};
 	string defaultMsg = "% ";
-	defaultDisplay();
+	cout << "What system are you using?\n\n1. Windows\n2. Linux (WSL)\n3. Linux (Native)\n\n% ";
+	cin >> systemType;
+	defaultDisplay(systemType);
 	while(true)
 	{
 		input = getInput(defaultMsg);
@@ -326,7 +372,7 @@ int main()
 		}
 		else if(input == "test")
 		{
-			wslcopy("success");
+			wincopy("success");
 		}
 		else if(input == "function" || input == "fx")
 		{
@@ -462,23 +508,8 @@ int main()
 					cin >> secondaryInput;
 				       	if(secondaryInput == "y" || secondaryInput == "yes" || secondaryInput == "Y" || secondaryInput == "Yes" || secondaryInput == "YES")
 					{
-						cout << "What system are you on?: " << endl;
-						cout << "1. Windows (WSL)\n2. Linux\n" << endl;
-						cin >> int1;
-						switch(int1)
-						{
-							case 1:
-								wslcopy(freeString);
-								break;
-							case 2:
-								//implement later; 
-								break;
-							default:
-								cout << "Copy operation failed. Did not recognize system input." << endl;
-						}
-
-					}	
-					wslcopy(freeString);
+						copy(freeString, systemType);
+					}
 					break;
 				case 2:
 					freeVector.clear();
@@ -487,10 +518,16 @@ int main()
 					freeVector.push_back("red");
 					freeVector.push_back("orange");
 					freeVector.push_back("yellow");
+					freeVector.push_back("pink");
+					freeVector.push_back("grey");
+					freeVector.push_back("cyan");
 					freeVector2.push_back("#8eb398");
 					freeVector2.push_back("#cd3333");
 					freeVector2.push_back("#ff7f24");
 					freeVector2.push_back("#e4c514");
+					freeVector2.push_back("#ef9ed2");
+					freeVector2.push_back("#858693");
+					freeVector2.push_back(" #51ADD5");
 					for(int i=0; i<freeVector.size(); i++)
 					{
 						cout << i+1 << ". " << freeVector.at(i) << endl;
@@ -507,22 +544,8 @@ int main()
 					cin >> freeString;
 					if(freeString == "y" || freeString == "Y" || freeString == "yes" || freeString == "Yes" || freeString == "YES")
 					{
-						cout << "What system are you on?: " << endl;
-                                                cout << "1. Windows (WSL)\n2. Linux\n" << endl;
-                                                cin >> int1;
-                                                switch(int1)
-                                                {
-                                                        case 1:
-                                                                wslcopy(freeString2);
-                                                                break;
-                                                        case 2:
-                                                                //implement later;
-                                                                break;
-                                                        default:
-                                                                cout << "Copy operation failed. Did not recognize system input." << endl;
-                                                }
-
-                                        }
+						copy(freeString2, systemType);
+                                        }     
 					break;
 				case 3:
 					freeVector.clear();
@@ -531,10 +554,12 @@ int main()
                                         freeVector.push_back("red");
                                         freeVector.push_back("orange");
                                         freeVector.push_back("yellow");
+					freeVector.push_back("pink");
                                         freeVector2.push_back("#8eb398");
                                         freeVector2.push_back("#cd3333");
                                         freeVector2.push_back("#ff7f24");
                                         freeVector2.push_back("#e4c514");
+					freeVector2.push_back("#ef9ed2");
                                         for(int i=0; i<freeVector.size(); i++)
                                         {
                                                 cout << i+1 << ". " << freeVector.at(i) << endl;
@@ -551,21 +576,7 @@ int main()
                                         cin >> freeString;
                                         if(freeString == "y" || freeString == "Y" || freeString == "yes" || freeString == "Yes" || freeString == "YES")
                                         {
-                                                cout << "What system are you on?: " << endl;
-                                                cout << "1. Windows (WSL)\n2. Linux\n" << endl;
-                                                cin >> int1;
-                                                switch(int1)
-                                                {
-                                                        case 1:
-                                                                wslcopy(freeString2);
-                                                                break;
-                                                        case 2:
-                                                                //implement later;
-                                                                break;
-                                                        default:
-                                                                cout << "Copy operation failed. Did not recognize system input." << endl;
-                                                }
-
+                                        	copy(freeString2, systemType);
                                         }	
 					break;
 				default:
@@ -578,7 +589,7 @@ int main()
 		freeVector2.clear();
 		building.clear();
 		enterContinue();
-		defaultDisplay();
+		defaultDisplay(systemType);
 
 	}
 } // end main
