@@ -1,7 +1,17 @@
 import os
+import sys
+print(sys.platform)
+if(sys.platform == "win32"):
+    WINDOWS = True
+else:
+    WINDOWS = False
 
 while(True):
-    os.system("clear")
+    
+    if WINDOWS:
+        os.system("cls")
+    else:
+        os.system("clear")
     print("0. dconsole.cpp (run - Windows)")
     print("1. dconsole.cpp (run+compile - Linux)")
     print("2. dconsole.cpp (vim)")

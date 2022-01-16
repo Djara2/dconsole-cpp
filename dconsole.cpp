@@ -7,6 +7,7 @@
 #include <fstream>
 using namespace std;
 using namespace std::chrono;
+//SYSTEM = 1 = WINDOWS --- = 2 = LINUX WSL --- = 3 = LINUX NATIVE
 void wincopy(string text)
 {
         fstream myFile;
@@ -262,10 +263,15 @@ int main()
 	double lowerBound;
 	double upperBound;
 	int systemType; //1 = windows 2 = WSL 3 = native linux
+	systemType = 2;
+	#ifdef _WIN32
+	systemType = 1;
+	#endif
 	vector<string> commands = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors", "html", "function"};
 	string defaultMsg = "% ";
-	cout << "What system are you using?\n\n1. Windows\n2. Linux (WSL)\n3. Linux (Native)\n\n% ";
-	cin >> systemType;
+	//cout << "What system are you using?\n\n1. Windows\n2. Linux (WSL)\n3. Linux (Native)\n\n% ";
+	//cin >> systemType;
+	cout << systemType << endl;
 	defaultDisplay(systemType);
 	while(true)
 	{
@@ -373,6 +379,17 @@ int main()
 		else if(input == "test")
 		{
 			wincopy("success");
+		}
+		else if(input == "sys" || input == "system")
+		{
+			if(systemType == 1)
+			{
+				cout << "Your system is WINDOWS" << endl;
+			}
+			else
+			{
+				cout << "Your system is LINUX" << endl;
+			}
 		}
 		else if(input == "function" || input == "fx")
 		{
