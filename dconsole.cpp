@@ -230,8 +230,9 @@ void defaultDisplay(int systemType)
 	{
 		system("clear");
 	}
-	system("python3 graphics.py");
-	cout << "dconsole C++ @1.03 " << endl;
+	system("python3 graphics2.py md \"# dconsole c++\"");
+	system("python3 graphics2.py normal \"[yellow]dconsole C++ @v1.04[/]\t[cyan]m[/] - menu\t[cyan]!filename[/] - run an applet\"");
+	//cout << "dconsole C++ @1.03 " << endl;
 	cout << "\n";
 } //end defaultDisplay method
 
@@ -262,12 +263,13 @@ int main()
 	int int4;
 	double lowerBound;
 	double upperBound;
+	const char *COMMAND;
 	int systemType; //1 = windows 2 = WSL 3 = native linux
 	systemType = 2;
 	#ifdef _WIN32
 	systemType = 1;
 	#endif
-	vector<string> commands = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors", "html", "function"};
+	vector<string> commands = {"add", "sub", "mult", "div", "sqrt", "pow", "factorial", "gcd", "qaudraticFormula", "factors", "html", "function", "None", "Quit"};
 	string defaultMsg = "% ";
 	//cout << "What system are you using?\n\n1. Windows\n2. Linux (WSL)\n3. Linux (Native)\n\n% ";
 	//cin >> systemType;
@@ -282,7 +284,7 @@ int main()
 			input = commands.at(int1-1);
 			cout << "\n";
 		}
-		if(input == "exit" || input == "quit" || input == "stop")
+		if(input == "exit" || input == "quit" || input == "stop" || input == "Quit")
 		{
 			return 0;
 		}
@@ -319,15 +321,100 @@ int main()
 		{
                         num1 = getNum(1);
                         num2 = getNum(2);
+			int1 = round(num1);
+			int2 = round(num2);
 			if(num2 != 0)
 			{
                         	double result = num1 / num2;
 				cout << "The quotient of " << num1 << " / " << num2 << " is " << result << endl;
+				cout << endl;
+				cout << "INTEGER DIVISION\n" << endl;
+				int3 = int1 / int2;
+				int4 = int1 % int2;
+				cout << "For x = dq + r:\n\n" << int1 << " = " << int2 << "(" << int3 << ") + " << int4 << "\n" << endl;
+				int1 = int2 * int3;
+				cout << "\t" << int2 << "(" << int3 << ") = " << int1 << "\n" << endl;
 			}
 			else
 			{
 				cout << "You cannot divide by zero." << endl;
 			}
+
+		}
+		else if(input[0] == '!')
+		{
+			//system("cd bin");
+			if(systemType == 1)
+			{
+				system("cls");
+				//system("cd bin");
+				freeString = "\"bin\\" + input.substr(1, input.length()) + ".exe\"";
+				cin.get();
+				COMMAND = freeString.c_str();
+				system(COMMAND);
+			}
+			else
+			{
+				system("clear");
+				freeString = "./bin/" + input.substr(1, input.length()-1);
+				COMMAND = freeString.c_str();
+				system(COMMAND);
+			}
+		}
+		else if(input == "sequence" || input == "seq")
+		{
+			SEQUENCE: cout << "What are you making?:\n\n1. Markdown List\
+					  \n2. Tuple (Markdown)\n3.Tuple (HTML)\n4. Abort process\n" << endl;
+			try
+			{	
+				
+				SEQUENCE_SELECTION:int1 = getIntWithMessage("Selection?: ");
+				if(int1 == 1)
+				{
+					cout << "\nOrdering scheme?: \n\n1. Bulleted\n2. Numeric\n3. Alphabetical\n4. Go up one level\n5. Abort process\n" << endl;
+					MD_ORDERING_SELECTION: try{
+						cout << endl;
+						int2 = getIntWithMessage("Selection?: ");
+						if(int2 == 4)
+						{
+							cout << endl;
+							goto SEQUENCE;
+						}
+
+					}
+					catch(...)
+					{
+						cout << "ERROR: input must be a string corresponding to the provided options in the list.";
+						enterContinue();
+						goto MD_ORDERING_SELECTION;
+					}
+				}
+
+				else if(int1 == 2)
+				{
+					cout << "Unimplemented." << endl;
+				}
+				
+				else if(int1 == 4)
+				{
+					cout << "\nMaybe another time.\n" << endl;
+				}
+				
+				else
+				{
+					cout << "ERROR: input is out of bounds for list options.\n" << endl;
+					enterContinue();
+					goto SEQUENCE_SELECTION;
+				}
+
+			}
+			catch(...)
+			{
+				cout << "ERROR: please enter a numeric value corresponding to one of the list items as input.\n" << endl;
+				enterContinue();
+				goto SEQUENCE;
+			}
+
 		}
 		else if(input == "sqrt")
 		{
@@ -349,6 +436,13 @@ int main()
 			double solution[] = {quadraticFormula("+", a, b, c), quadraticFormula("-", a, b, c)};
 			cout << "Result using + : " << solution[0] << endl;
 			cout << "Result using - : " << solution[1] << endl;
+		}
+		else if(input == "mod")
+		{
+			int1 = getIntWithMessage("Dividend?: ");
+			int2 = getIntWithMessage("Divisor?: ");
+			int3 = int1 % int2;
+			cout << "Result of " << int1 << " % " << int2 << " ---> " << int3 << endl;
 		}
 		else if(input == "factors")
 		{

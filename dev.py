@@ -1,14 +1,17 @@
 import os
 import sys
+from get_os import *
+"""
 print(sys.platform)
 if(sys.platform == "win32"):
     WINDOWS = True
 else:
     WINDOWS = False
-
+"""
+OPERATING_SYSTEM = GET_OS()
 while(True):
     
-    if WINDOWS:
+    if OPERATING_SYSTEM == "Windows":
         os.system("cls")
     else:
         os.system("clear")
@@ -17,8 +20,11 @@ while(True):
     print("2. dconsole.cpp (vim)")
     print("3. matrix.cpp (vim)")
     print("4. dconsole (compile - Linux)")
-    print("5. dconsole (compile - Windows) [make sure you do it on Windows]")
-    print("6. exit")
+    print("5. dconsole (compile - Windows SHAREABLE) [make sure you do it on Windows]")
+    print("6. dconsole (compile - Windows LOCAL ONLY) [make sure you do it on Windows]")
+    print("7. EDIT IN SUBLIME TEXT")
+    print("8. AUTOCOMPILER (for programs in bin folder)")
+    print("9. exit")
     selection = input("\nChoice?: ")
     if selection == "0":
         os.system("dcwin")
@@ -34,6 +40,16 @@ while(True):
     elif selection == "5":
         os.system("g++ dconsole.cpp -o dcwin.exe -static-libgcc -static-libstdc++")
     elif selection == "6":
+        os.system("g++ dconsole.cpp -o dcwin.exe")
+    elif selection == "7":
+        os.system("subl dconsole.cpp")
+    elif selection == "8":
+        if OPERATING_SYSTEM == "Windows":
+            os.system("bin/autocompiler.exe")
+        else:
+            os.system("cd bin")
+            os.system("./bin/autocompiler")
+    elif selection == "9":
         exit()
     elif selection == "quit" or selection == "exit":
         exit()
